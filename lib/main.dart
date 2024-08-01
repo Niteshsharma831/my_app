@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/basicscreen.dart';
-import 'package:my_app/profilescreen.dart';
+import 'package:my_app/stopwatch.dart';
 
 void main() {
   runApp(const MainApp());
@@ -16,7 +15,7 @@ class MainApp extends StatelessWidget {
       home: SafeArea(
         child: Scaffold(
             body: Center(
-          child: ProfileScreen(),
+          child: StopWatch(),
         )),
       ),
     );

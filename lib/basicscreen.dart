@@ -9,7 +9,7 @@ class BasicScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 173, 254, 66),
-        title: Text(
+        title: const Text(
           "CE CD Div",
           // style:
           //    GoogleFonts.leckerliOne(textStyle: const TextStyle(fontSize: 30)),

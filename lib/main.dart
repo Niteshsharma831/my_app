@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/loginscreen.dart';
 import 'package:my_app/stopwatch.dart';
 
 void main() {
@@ -15,7 +16,7 @@ class MainApp extends StatelessWidget {
       home: SafeArea(
         child: Scaffold(
             body: Center(
-          child: StopWatch(),
+          child: MyLoginScreen(),
         )),
       ),
     );

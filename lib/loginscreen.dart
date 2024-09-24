@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:my_app/stopwatch.dart';
+
 
 class MyLoginScreen extends StatefulWidget {
   const MyLoginScreen({super.key});
@@ -9,13 +11,16 @@ class MyLoginScreen extends StatefulWidget {
 }
 
 class _MyLoginScreenState extends State<MyLoginScreen> {
-  String name = "";
-  String password = "";
+  String name = '';
+  String password = '';
+  String email = '';
   bool islogged = false;
 
   final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _formkey = GlobalKey<FormState>();
+  final _emailcontroller = TextEditingController();
+  final _passwords = TextEditingController();
+  final _repassword = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -24,50 +29,97 @@ class _MyLoginScreenState extends State<MyLoginScreen> {
           title: const Text("Login Screen"),
         ),
         body: Center(
-          child: islogged ? _buildSucess() : _buildLogin(),
+          child: _buildLogin(),
         ));
   }
 
-  Widget _buildSucess() {
-    return const Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Icon(
-        Icons.check,
-        color: Colors.green,
-      ),
-      Text("Success"),
-    ]);
-  }
+  // Widget _buildSucess() {
+  //   return const Column(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     children: [
+  //       Icon(
+  //         Icons.check,
+  //         color: Colors.green,
+  //       ),
+  //       Text("Sucess"),
+  //     ],
+  //   );
+  // }
 
   Widget _buildLogin() {
     return Form(
-      key: _formkey,
+      key: _formKey,
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
               controller: _nameController,
               decoration: const InputDecoration(labelText: "Username"),
-              validator: (Text) => Text!.isEmpty ? "Enter Name" : null,
+              validator: (text) => text!.isEmpty ? 'Enter Name' : null,
             ),
             TextFormField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(labelText: "Email Address"),
+              controller: _emailcontroller,
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(labelText: 'Email Address'),
+              validator: (text) {
+                if (text!.isEmpty) {
+                  return "Email cannot be empty";
+                }
+                final regex = RegExp(r"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$");
+                if (!regex.hasMatch(text)) {
+                  return "Invalid email format";
+                }
+                return null;
+              },
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            TextFormField(
+                controller: _passwords,
+                obscureText: true,
+                decoration: const InputDecoration(labelText: 'Password'),
                 validator: (text) {
                   if (text!.isEmpty) {
-                    return "Email cannot be Empity";
+                    return "Password cannot be empty";
                   }
-                  final regex = RegExp(r"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$");
+                  final regex = RegExp(
+                      r"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$");
                   if (!regex.hasMatch(text)) {
-                    return "Invalid Email";
+                    return "Invalid password format";
                   }
                   return null;
                 }),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            ElevatedButton(onPressed: validate, child: Text("Login"))
+            TextFormField(
+                controller: _repassword,
+                obscureText: true,
+                decoration: const InputDecoration(labelText: 'Password'),
+                validator: (text) {
+                  if (text!.isEmpty) {
+                    return "Password cannot be empty";
+                  }
+                  final regex = RegExp(
+                      r"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$");
+                  if (!regex.hasMatch(text)) {
+                    return "Invalid password format";
+                  }
+                  if (_passwords.text != text) {
+                    return "Passwords do not match";
+                  }
+                  return null;
+                }),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: validate,
+              child: const Text("LogIn"),
+            ),
           ],
         ),
       ),
@@ -75,14 +127,17 @@ class _MyLoginScreenState extends State<MyLoginScreen> {
   }
 
   void validate() {
-    final Form = _formkey.currentState;
-    if (Form?.validate() == false) {
+    final form = _formKey.currentState;
+    if (form?.validate() == false) {
       return;
     }
     setState(() {
       islogged = true;
       name = _nameController.text;
-      password = _emailController.text;
+      password = _repassword.text;
+      email = _emailcontroller.text;
     });
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => StopWatch(name1: name, email1: email)));
   }
 }

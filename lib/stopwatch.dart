@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 class StopWatch extends StatefulWidget {
-  const StopWatch({super.key});
+  final String name1;
+  final String email1;
+  const StopWatch({super.key, required this.name1, required this.email1});
 
   @override
   State<StopWatch> createState() => _StopWatchState();
@@ -16,7 +18,6 @@ class _StopWatchState extends State<StopWatch> {
   bool _isTicking = false;
   final double itemHeight = 60;
   final scrollController = ScrollController();
-
   @override
   void initState() {
     super.initState();
@@ -26,7 +27,7 @@ class _StopWatchState extends State<StopWatch> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Stop Watch"),
+          title: Text(widget.name1),
         ),
         body: Column(
           children: [
@@ -61,8 +62,8 @@ class _StopWatchState extends State<StopWatch> {
         ElevatedButton(
           onPressed: _isTicking ? null : _starttimer,
           style: ButtonStyle(
-              foregroundColor: WidgetStateProperty.all<Color>(Colors.black),
-              backgroundColor: WidgetStateProperty.all<Color>(Colors.amber)),
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.amber)),
           child: const Text("Start"),
         ),
         const SizedBox(
@@ -71,9 +72,9 @@ class _StopWatchState extends State<StopWatch> {
         ElevatedButton(
           onPressed: _isTicking ? _stoptimer : null,
           style: ButtonStyle(
-              foregroundColor: WidgetStateProperty.all<Color>(Colors.black),
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
               backgroundColor:
-                  WidgetStateProperty.all<Color>(Colors.blueAccent)),
+                  MaterialStateProperty.all<Color>(Colors.blueAccent)),
           child: const Text("Stop"),
         ),
         const SizedBox(
@@ -82,9 +83,9 @@ class _StopWatchState extends State<StopWatch> {
         ElevatedButton(
           onPressed: _lap,
           style: ButtonStyle(
-              foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
               backgroundColor:
-                  WidgetStateProperty.all<Color>(Colors.purpleAccent)),
+                  MaterialStateProperty.all<Color>(Colors.purpleAccent)),
           child: const Text("Lap"),
         )
       ],
@@ -94,11 +95,13 @@ class _StopWatchState extends State<StopWatch> {
   void _lap() {
     setState(() {
       laps.add(milliseconds);
-      print(laps);
       milliseconds = 0;
     });
-    scrollController.animateTo(itemHeight * laps.length,
-        duration: const Duration(milliseconds: 300), curve: Curves.bounceIn);
+    scrollController.animateTo(
+      itemHeight * laps.length,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.bounceIn,
+    );
   }
 
 //  onPressed: _isTicking ? null : _starttimer,   Start Button

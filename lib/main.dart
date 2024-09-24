@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/apiText.dart';
+import 'package:my_app/locationScreen.dart';
 import 'package:my_app/loginscreen.dart';
 import 'package:my_app/stopwatch.dart';
 
@@ -16,7 +18,7 @@ class MainApp extends StatelessWidget {
       home: SafeArea(
         child: Scaffold(
             body: Center(
-          child: MyLoginScreen(),
+          child: ApiText(),
         )),
       ),
     );
